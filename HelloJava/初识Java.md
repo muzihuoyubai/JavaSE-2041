@@ -94,12 +94,11 @@ https://repo.huaweicloud.com/java/jdk
 
 进入java jdk的下载路径
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_01.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_01.png)
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_02.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_02.png)
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_03.png)
-
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_03.png)
 选择合适的安装包进行下载，以下安装演示分别对应的安装包 
 
 | 操作系统 | 安装包                          |
@@ -181,43 +180,43 @@ opened: **/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home/lib/mod
 
 运行dmg文件，根据提示继续即可
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_04.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_04.png)
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_05.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_05.png)
 
 ## windows下JDK的安装
 
 根据安装提示进行安装，建议
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_06.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_06.png)
 
 安装完成后配置环境变量，环境变量配置主要是为了可以在任意路径下运行javac
 
 计算机右键选择属性
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_07.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_07.png)
 
 选择高级系统设置
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_08.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_08.png)
 
 选择环境变量
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_09.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_09.png)
 
 新建系统变量
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_10.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_10.png)
 
 添加变量名JAVA_HOME，变量值为jdk安装的路径，例如D:\Java\jdk1.8.0_144
 
 找到系统变量中的path，点击编辑
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_11.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_11.png)
 
 在已有的路径下，最前面增加`%JAVA_HOME%\bin;` 注意后面的分号是要加的，另外注意不要全选将其他的path覆盖掉了
 
-![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/javase-online/images/jdk_setup_12.png)
+![image](http://by-camp.oss-cn-shanghai.aliyuncs.com/wiki/Javase-online/images/jdk_setup_12.png)
 
 ## Linux 安装
 
