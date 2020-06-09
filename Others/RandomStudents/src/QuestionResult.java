@@ -7,6 +7,9 @@ public class QuestionResult {
   @JSONField(format = "yyyy-MM-dd HH:mm")
   private Date date;
 
+  /**
+   * 不写构造方法会导致FastJson无法反序列化
+   */
   public QuestionResult() {
   }
 
