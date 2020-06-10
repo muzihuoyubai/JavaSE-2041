@@ -67,7 +67,12 @@
 	},
 	{
 		"name":"刘俊杰",
-		"questionResultList":[]
+		"questionResultList":[
+			{
+				"answer":"Y",
+				"date":"2020-06-10 13:46"
+			}
+		]
 	},
 	{
 		"name":"邵泽宇",
