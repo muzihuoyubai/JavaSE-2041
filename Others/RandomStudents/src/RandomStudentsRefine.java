@@ -37,7 +37,8 @@ public class RandomStudentsRefine {
   private static void saveToFile(List<StudentResult> studentResults) throws IOException {
     File file = new File(RESULT_LOCATION);
     JSON.DEFFAULT_DATE_FORMAT = "yyyy-MM-dd";
-    String s = JSONObject.toJSONString(studentResults, SerializerFeature.PrettyFormat,SerializerFeature.WriteDateUseDateFormat);
+    String s = JSONObject.toJSONString(studentResults, SerializerFeature.PrettyFormat,
+        SerializerFeature.WriteDateUseDateFormat);
     FileWriter fileWriter = new FileWriter(file);
     fileWriter.write(s);
     fileWriter.close();

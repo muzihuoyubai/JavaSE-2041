@@ -8,9 +8,6 @@ class Fridge {
     Elephant elephant;
 }
 
-
-
-
 class Main {
 
     public static Fridge createFridge(int heightInCM) {
