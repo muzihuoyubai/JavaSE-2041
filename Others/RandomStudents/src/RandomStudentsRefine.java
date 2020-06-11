@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +17,10 @@ import java.util.stream.Collectors;
 
 public class RandomStudentsRefine {
 
-  private static final String RESULT_LOCATION = "/Users/liyi/works/repos/banyuan/JavaSE-2041/Others/RandomStudents/result/result.json";
-
+  private static final String BASE_LOCATION = "/Users/liyi/works/repos/banyuan/JavaSE-2041/Others/RandomStudents/result/";
+  private static final String RESULT_LOCATION = BASE_LOCATION + "CourseAns.json";
+  private static final String HOME_WORK_LOCATION = BASE_LOCATION + "HomeWork.json";
+  private static String fileLocation = RESULT_LOCATION;
   public static final String[] studentNames = {
       "章添添", "冯晶晶", "贾旭辉", "袁林", "卞云鹏", "张旭东",
       "张巍岩", "万国榕", "李顽强", "杨坤", "张松怡", "孙明羽",
@@ -26,11 +29,16 @@ public class RandomStudentsRefine {
   };
 
   public static void main(String[] args) throws IOException {
+    if (args.length > 0) {
+      fileLocation = HOME_WORK_LOCATION;
+    }
     List<StudentResult> studentResults = loadFromFile();
     appendStudentNames(studentResults);
     List<StudentResult> readyForChoose = generateStudentsForChoose(studentResults);
     StudentResult one = chooseOne(readyForChoose);
     answerQuestion(one);
+    studentResults
+        .sort((o1, o2) -> o2.getQuestionResultList().size() - o1.getQuestionResultList().size());
     saveToFile(studentResults);
   }
 
