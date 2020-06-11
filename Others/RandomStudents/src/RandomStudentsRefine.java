@@ -43,7 +43,7 @@ public class RandomStudentsRefine {
   }
 
   private static void saveToFile(List<StudentResult> studentResults) throws IOException {
-    File file = new File(RESULT_LOCATION);
+    File file = new File(fileLocation);
     JSON.DEFFAULT_DATE_FORMAT = "yyyy-MM-dd";
     String s = JSONObject.toJSONString(studentResults, SerializerFeature.PrettyFormat,
         SerializerFeature.WriteDateUseDateFormat);
@@ -93,7 +93,7 @@ public class RandomStudentsRefine {
   }
 
   private static List<StudentResult> loadFromFile() throws IOException {
-    File file = new File(RESULT_LOCATION);
+    File file = new File(fileLocation);
     if (!file.exists()) {
       file.createNewFile();
     }
