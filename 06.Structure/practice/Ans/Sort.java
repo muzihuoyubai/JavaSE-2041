@@ -1,4 +1,4 @@
-class Practice {
+class Sort {
 
   /**
    * 根据传入的参数来将数组升序或降序排列
