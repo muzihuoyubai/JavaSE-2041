@@ -15,6 +15,20 @@ class Video {
 
     int ratingTimes;
 
+    void rating(int rate) {
+        double originRating = rating * ratingTimes;
+        ratingTimes++;
+        rating = (originRating + rate) / ratingTimes;
+    }
+
+    boolean setRentStatus(boolean status) {
+        if (status == isRent) {
+            return false;
+        }
+        isRent = status;
+        return true;
+    }
+
     // int[] ratingArr = new int[10]{-1};
 
 }

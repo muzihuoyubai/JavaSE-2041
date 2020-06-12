@@ -12,24 +12,22 @@ class VideoStore {
 
     // 根据片名借出电影
     boolean checkOut(String title) {
-        for (int i = 0; i < videoCount ; i++ ) {
-            if (videos[i].title.equals(title) && !videos[i].isRent) {
-                videos[i].isRent = true;
-                return true;
-            }
+        Video one = findVideo(title);
+        if (one == null) {
+            return false;
         }
-        return false;
+
+        return one.setRentStatus(true);
     }
 
     // 归还电影
     boolean returnVideo(String title) {
-        for (int i = 0; i < videoCount ; i++ ) {
-            if (videos[i].title.equals(title) && videos[i].isRent) {
-                videos[i].isRent = false;
-                return true;
-            }
+        Video one = findVideo(title);
+        if (one == null) {
+            return false;
         }
-        return false;
+
+        return one.setRentStatus(false);
     }
 
     // 设置用户对电影的评分(1~5)，收到评分之后，计算该电影的平均评分，然后保存到Video的评分属性中
@@ -39,16 +37,23 @@ class VideoStore {
             return false;
         }
 
-        for (int i = 0; i < videoCount ; i++ ) {
-            if (videos[i].title.equals(title)) {
-                double originRating = videos[i].rating * videos[i].ratingTimes;
-                videos[i].ratingTimes++;
-                videos[i].rating = (originRating + rating) /   videos[i].ratingTimes;
-                return true;
-            }
+        Video one = findVideo(title);
+
+        if (one == null) {
+            return false;
         }
 
-        return false;
+        one.rating(rating);
+        return true;
+    }
+
+    private Video findVideo(String title) {
+        for (int i = 0; i < videoCount ; i++ ) {
+            if (videos[i].title.equals(title)) {
+                return videos[i];
+            }
+        }
+        return null;
     }
 
 
