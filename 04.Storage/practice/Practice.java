@@ -38,16 +38,8 @@ class Practice {
      */
     // 创建一个一维长度是3的二维数组，相当于创建了3行，然后给每一行创建一个一维数组
     String[][] twoDimensionArr = new String[3][];
-    // twoDimensionArr[0] = new String[]{"你", "我", "他"};
-    // twoDimensionArr[1] = new String[]{"金", "木", "水", "火", "土"};
-    // twoDimensionArr[2] = new String[]{"天", "地"};
-    System.out.println(twoDimensionArr[0]);
-    System.out.println(twoDimensionArr[1]);
-    System.out.println(twoDimensionArr[2]);
-    System.out.println(twoDimensionArr[0][0]);
-    System.out.println(twoDimensionArr[1][0]);
-    System.out.println(twoDimensionArr[2][0]);
-
-
+    twoDimensionArr[0] = new String[]{"你", "我", "他"};
+    twoDimensionArr[1] = new String[]{"金", "木", "水", "火", "土"};
+    twoDimensionArr[2] = new String[]{"天", "地"};
   }
 }
