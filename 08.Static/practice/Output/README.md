@@ -157,16 +157,17 @@ E. 编译错误
 
 #### 6. 以下代码的输出结果是
 ```
-class Test1 { 
-    int x = 10; 
-public static void main(String[] args) 
-    { 
-        Test1 t1 = new Test1(); 
-        Test1 t2 = new Test1(); 
-        t1.x = 20; 
-        System.out.print(t1.x + " "); 
-        System.out.println(t2.x); 
-    } 
+class Test1 {
+
+  int x = 10;
+
+  public static void main(String[] args) {
+    Test1 t1 = new Test1();
+    Test1 t2 = new Test1();
+    t1.x = 20;
+    System.out.print(t1.x + " ");
+    System.out.println(t2.x);
+  }
 } 
 ```
 ```
@@ -177,15 +178,16 @@ D. 20 10
 ```
 #### 7. 以下代码的输出结果是
 ```
-class Test1 { 
-	static int i = 1; 
-public static void main(String[] args) 
-	{ 
-		for (int i = 1; i < 10; i++) { 
-			i = i + 2; 
-			System.out.print(i + " "); 
-		} 
-	} 
+class Test1 {
+
+  static int i = 1;
+
+  public static void main(String[] args) {
+    for (int i = 1; i < 10; i++) {
+      i = i + 2;
+      System.out.print(i + " ");
+    }
+  }
 } 
 ```
 ```
@@ -196,16 +198,17 @@ D. 没有输出
 ```
 #### 8. 以下代码的输出结果是
 ```
-class Test1 { 
-    static int i = 1; 
-public static void main(String[] args) 
-    { 
-        int i = 1; 
-        for (Test1.i = 1; Test1.i < 10; Test1.i++) { 
-            i = i + 2; 
-            System.out.print(i + " "); 
-        } 
-    } 
+class Test1 {
+
+  static int i = 1;
+
+  public static void main(String[] args) {
+    int i = 1;
+    for (Test1.i = 1; Test1.i < 10; Test1.i++) {
+      i = i + 2;
+      System.out.print(i + " ");
+    }
+  }
 } 
 ```
 ```
@@ -216,16 +219,17 @@ D. 无输出
 ```
 #### 9. 以下代码的输出结果是
 ```
-class Test1 { 
-    static int i = 1; 
-public static void main(String[] args) 
-    { 
-        static int i = 1; 
-        for (Test1.i = 1; Test1.i < 10; Test1.i++) { 
-            i = i + 2; 
-            System.out.print(i + " "); 
-        } 
-    } 
+class Test1 {
+
+  static int i = 1;
+
+  public static void main(String[] args) {
+    static int i = 1;
+    for (Test1.i = 1; Test1.i < 10; Test1.i++) {
+      i = i + 2;
+      System.out.print(i + " ");
+    }
+  }
 } 
 ```
 ```
@@ -237,18 +241,18 @@ D. 1 2 3 … 9
 #### 10. 以下代码的输出结果是
 
 ```
-class Test1 { 
-public static void main(String[] args) 
-    { 
-        static int arr1[] = { 11, 22, 33 }; 
-        static int arr2[] = { 11, 22, 33, 44, 55 }; 
-        static int ptr[]; 
-        ptr = arr1; 
-        arr1 = arr2; 
-        arr2 = ptr; 
-        System.out.print(arr1.length + " "); 
-        System.out.println(arr2.length); 
-    } 
+class Test1 {
+
+  public static void main(String[] args) {
+    static int arr1[] = {11, 22, 33};
+    static int arr2[] = {11, 22, 33, 44, 55};
+    static int ptr[];
+    ptr = arr1;
+    arr1 = arr2;
+    arr2 = ptr;
+    System.out.print(arr1.length + " ");
+    System.out.println(arr2.length);
+  }
 } 
 ```
 ```
@@ -260,16 +264,17 @@ D. 3 5
 #### 11. 以下代码的输出结果是
 
 ```
-class Test1 { 
-public static void main(String[] args) { 
-        int x = 20; 
-        System.out.println(x); 
-    } 
-    static
-    { 
-        int x = 10; 
-        System.out.print(x + " "); 
-    } 
+class Test1 {
+
+  public static void main(String[] args) {
+    int x = 20;
+    System.out.println(x);
+  }
+
+  static {
+    int x = 10;
+    System.out.print(x + " ");
+  }
 } 
 ```
 ```
@@ -280,17 +285,18 @@ D. 20 20
 ```
 #### 12. 以下代码的输出结果是
 ```
-class Test1 { 
-    int x = 10; 
-public
-    static void main(String[] args) 
-    { 
-        System.out.println(x); 
-    } 
-    static
-    { 
-        System.out.print(x + " "); 
-    } 
+class Test1 {
+
+  int x = 10;
+
+  public
+  static void main(String[] args) {
+    System.out.println(x);
+  }
+
+  static {
+    System.out.print(x + " ");
+  }
 } 
 ```
 ```
@@ -301,17 +307,18 @@ D. 无输出
 ```
 #### 13. 以下代码的输出结果是
 ```
-class Test1 { 
-    int x = 10; 
-public
-    static void main(String[] args) 
-    { 
-        Test1 t1 = new Test1(); 
-        System.out.println(t1.x); 
-    } 
-    static
-    { 
-        int x = 20; 
+class Test1 {
+
+    int x = 10;
+
+    public
+    static void main(String[] args) {
+        Test1 t1 = new Test1();
+        System.out.println(t1.x);
+    }
+
+    static {
+        int x = 20;
         System.out.print(x + " "); 
     } 
 } 
@@ -325,18 +332,18 @@ D. 编译错误
 #### 14. 以下代码的输出结果是
 
 ```
-class Test1 { 
-    int x = 10; 
-public
-    static void main(String[] args) 
-    { 
-        System.out.println(Test1.x); 
-    } 
-    static
-    { 
-        int x = 20; 
-        System.out.print(x + " "); 
-    } 
+class Test1 {
+
+  int x = 10;
+
+  public static void main(String[] args) {
+    System.out.println(Test1.x);
+  }
+
+  static {
+    int x = 20;
+    System.out.print(x + " ");
+  }
 } 
 ```
 ```
@@ -348,18 +355,18 @@ D. 编译错误
 
 #### 15. 以下代码的输出结果是
 ```
-class Test1 { 
-    static int x = 10; 
-public
-    static void main(String[] args) 
-    { 
-        Test1 t1 = new Test1(); 
-        Test1 t2 = new Test1(); 
-  
-        t1.x = 20; 
-        System.out.print(t1.x + " "); 
-        System.out.println(t2.x); 
-    } 
+class Test1 {
+
+  static int x = 10;
+
+  public static void main(String[] args) {
+    Test1 t1 = new Test1();
+    Test1 t2 = new Test1();
+
+    t1.x = 20;
+    System.out.print(t1.x + " ");
+    System.out.println(t2.x);
+  }
 } 
 ```
 ```
