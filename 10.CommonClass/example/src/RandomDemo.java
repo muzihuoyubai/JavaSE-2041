@@ -1,5 +1,3 @@
-package club.banyuan;
-
 import java.util.Random;
 
 public class RandomDemo {
