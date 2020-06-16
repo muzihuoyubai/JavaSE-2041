@@ -1,10 +1,25 @@
 #### 1.设计一个方法，可以实现获取任意范围内的随机数。包括负数，例如输入randomInt(-10,5)
+tips:  
 ```
-int randomInt(int from, int to){
-}
+double Math.random()
+将返回一个 double类型的数字，数字的范围在[0,1)之间
+Math类位于java.lang 包下，可以不需要import就可以使用
+
+或者使用
+
+Random类，该类位于java.util 包下，需要使用import导入, 即 import java.util.Random;
+int nextInt(int n)
+该方法接收一个int类型的数值（必须大于0），返回一个int数值，范围在[0,n) 之间，n为传入的数值
+
+Random random = new Random();
+random.nextInt(12); // 将随机生成 [0,12) 之间的数字
 ```
 
 #### 2.定义一个StringBuffer类对象, 对外提供方法接收字符串或字符，通过一个方法将之前接收到的字符拼接到一起返回
+tips:  
+```
+
+```
 ```
 /**
     接收字符串
