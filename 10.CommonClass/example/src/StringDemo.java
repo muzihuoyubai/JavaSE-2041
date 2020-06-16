@@ -1,6 +1,4 @@
 
-import java.util.Locale;
-
 public class StringDemo {
 
   public static void main(String[] args) {
