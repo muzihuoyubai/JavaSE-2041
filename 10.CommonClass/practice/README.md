@@ -14,7 +14,10 @@ int nextInt(int n)
 Random random = new Random();
 random.nextInt(12); // 将随机生成 [0,12) 之间的数字
 ```
-
+```
+int randomInt(int from, int to){
+}
+```
 #### 2.定义一个StringBuffer类对象, 对外提供方法接收字符串或字符，通过一个方法将之前接收到的字符拼接到一起返回
 tips:  
 ```
