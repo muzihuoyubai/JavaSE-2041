@@ -1,6 +1,8 @@
 #### 1.设计一个方法，可以实现获取任意范围内的随机数。包括负数，例如输入randomInt(-10,5)
-tips:  
+
 ```
+tips:  
+
 double Math.random()
 将返回一个 double类型的数字，数字的范围在[0,1)之间
 Math类位于java.lang 包下，可以不需要import就可以使用
@@ -19,8 +21,10 @@ int randomInt(int from, int to){
 }
 ```
 #### 2.定义一个StringBuffer类对象, 对外提供方法接收字符串或字符，通过一个方法将之前接收到的字符拼接到一起返回
-tips:  
+ 
 ```
+tips:  
+
 可以使用但不限于以下API
 
 char charAt(int)
@@ -92,7 +96,13 @@ String reverse(int from, int to)
 ```
 
 #### 3. 编写一个程序，将下面的一段文本中的各个单词的字母顺序翻转，
-“To be or not to be"，将变成"oT eb ro ton ot eb."。
+"To be or not to be"，将变成"oT eb ro ton ot eb."。
+
+```
+tips:
+split(String)
+将调用的String对象拆分成String数组，根据传入的String内容进行切割，参考example/StringDemo
+```
 
 
 #### 4. 猜数字
