@@ -29,5 +29,12 @@ public class Main {
         stringBuffer.append("5");
         stringBuffer.append("6");
         System.out.println(stringBuffer.toString());
+
+        stringBuffer.shiftOne();
+        stringBuffer.shiftOne();
+        stringBuffer.shiftOne();
+        System.out.println(stringBuffer.toString());
+        System.out.println(stringBuffer.reverse());
+
     }
 }

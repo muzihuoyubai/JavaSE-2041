@@ -28,8 +28,8 @@ public class StringBuffer {
      * 清除之前的而输入内容
      */
     public void clear() {
-      buf = "";
-      reverse = "";
+        buf = "";
+        reverse = "";
     }
 
     /**
@@ -57,5 +57,29 @@ public class StringBuffer {
 
 
         return one + stringBuffer.reverse() + three;
+    }
+
+    public void shiftOne() {
+        if (buf.length() == 0) {
+            return;
+        }
+        char[] chars = buf.toCharArray();
+        char one = chars[0];
+        for (int i = 0; i < chars.length - 1; i++) {
+            chars[i] = chars[i + 1];
+        }
+
+        chars[chars.length - 1] = one;
+        buf = new String(chars);
+
+
+        chars = reverse.toCharArray();
+        one = chars[chars.length - 1];
+        for (int i = chars.length - 1; i > 0; i--) {
+            chars[i] = chars[i - 1];
+        }
+        chars[0] = one;
+        reverse = new String(chars);
+
     }
 }
