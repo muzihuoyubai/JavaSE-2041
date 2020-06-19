@@ -1,9 +1,12 @@
+import java.util.Objects;
+
 public class Book {
 
   protected String title;
   private double price;
   private double cost;
-  private int pages;
+  protected int pages;
+
 
   public Book(String title, double price, double cost, int pages) {
     this.title = title;
@@ -17,7 +20,6 @@ public class Book {
   }
 
   public String getTitle() {
-    System.out.println("父类中定义的方法");
     return title;
   }
 
@@ -47,5 +49,12 @@ public class Book {
 
   public void setPages(int pages) {
     this.pages = pages;
+  }
+
+  public static void main(String[] args) {
+    Book book = new Book("1", 1, 1, 1);
+    Book book2 = new Book("1", 1, 1, 1);
+    System.out.println(book.equals(book2));
+    System.out.println(book);
   }
 }
