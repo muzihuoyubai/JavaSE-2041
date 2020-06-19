@@ -14,7 +14,7 @@ public class Son extends Father {
 
   @Override
   public void family() {
-    super.super.family();
+    super.family();
   }
 
   public static void main(String[] args) {
