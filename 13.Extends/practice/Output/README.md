@@ -873,32 +873,31 @@ public class MainClass
 ```
 #### 30.
 ```
-class ClassOne
-{
-	static int i = 111;
-	
-	int j = 222;
-	
-	{
-        // 111 - 223
-		i = i++ - ++j; -112
-	}
+class ClassOne {
+
+  static int i = 111;
+
+  int j = 222;
+
+  {
+    i = i++ - ++j;
+  }
 }
 
-class ClassTwo extends ClassOne
-{
-	{
-        i = -113 
-        // -112 + 222 = 110
-		j = i-- + --j;
-	}
+class ClassTwo extends ClassOne {
+
+  {
+    i = -113;
+    j = i-- + --j;
+  }
 }
 
 class Main {
-    public static void main(String args[]){
-        ClassTwo clsTwo = new ClassTwo();
-        System.out.println(cls.i);
-        System.out.println(cls.j);
-    }
+
+  public static void main(String args[]) {
+    ClassTwo clsTwo = new ClassTwo();
+    System.out.println(clsTwo.i);
+    System.out.println(clsTwo.j);
+  }
 }
 ```
