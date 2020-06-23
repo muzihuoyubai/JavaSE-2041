@@ -5,6 +5,9 @@ public class Node {
 
   private Object value;
 
+  public Node() {
+  }
+
   public Node(Node prev, Node next, Object value) {
     this.prev = prev;
     this.next = next;
@@ -33,5 +36,21 @@ public class Node {
 
   public void setValue(Object value) {
     this.value = value;
+  }
+
+  public static void main(String[] args) {
+    Node node = new Node();
+    node.next = new Node();
+
+    node.next.setValue(1);
+
+    node.next.next = new Node();
+
+    node.next.next.setValue(2);
+
+    while (node != null) {
+      System.out.println(node.getValue());
+      node = node.next;
+    }
   }
 }
