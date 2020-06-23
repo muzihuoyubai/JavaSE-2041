@@ -1,4 +1,4 @@
-package club.banyuan.queue;
+package club.bayuan.queue;
 
 public interface Queue {
 
