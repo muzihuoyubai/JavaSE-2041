@@ -4,8 +4,7 @@ public class DataSetRefine {
 
   private double sum;
   private int count;
-  private Measurable maximum;
-  private Object max;
+  private Object maximum;
   private Measurer measurer;
 
   public DataSetRefine(Measurer measurer) {
@@ -21,7 +20,7 @@ public class DataSetRefine {
   public void add(Measurable x) {
     double measure = x.getMeasure();
     sum = sum + measure;
-    if (count == 0 || maximum.getMeasure() < measure) {
+    if (count == 0 || ((Measurable) maximum).getMeasure() < measure) {
       maximum = x;
     }
     count++;
@@ -30,8 +29,8 @@ public class DataSetRefine {
   public void add(Object x) {
     double measure = measurer.measure(x);
     sum = sum + measure;
-    if (count == 0 || measurer.measure(max) < measure) {
-      max = x;
+    if (count == 0 || measurer.measure(maximum) < measure) {
+      maximum = x;
     }
     count++;
   }
@@ -43,13 +42,8 @@ public class DataSetRefine {
     return sum / count;
   }
 
-  public Measurable getMaximum() {
+  public Object getMaximum() {
     return maximum;
   }
-
-  public Object getMax() {
-    return max;
-  }
-
 
 }
