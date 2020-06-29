@@ -15,7 +15,7 @@ public class Main {
     System.out.println(AnimalType.ELEPHANT.ordinal());
     System.out.println(AnimalType.ELEPHANT.compareTo(AnimalType.UNKNOWN));
 
-    AnimalType.ELEPHANT.setName("狮子");
+    // AnimalType.ELEPHANT.setName("狮子");
     System.out.println(AnimalType.ELEPHANT.getName());
   }
 }
