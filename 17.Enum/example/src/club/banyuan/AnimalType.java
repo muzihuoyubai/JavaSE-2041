@@ -1,24 +1,47 @@
 package club.banyuan;
 
-public class AnimalType {
+public enum AnimalType {
+  LION("狮子", 1),
+  ELEPHANT("大象", 2),
+  TIGER("老虎", 3),
+  UNKNOWN("未知", -1),
 
-  public static final AnimalType LION = new AnimalType("狮子");
-  public static final AnimalType ELEPHANT = new AnimalType("大象");
-  public static final AnimalType TIGER = new AnimalType("老虎");
+  ;
 
-  private String name;
+  private final String name;
+  private final int code;
 
-  private AnimalType(String name) {
+  AnimalType(String name, int code) {
     this.name = name;
+    this.code = code;
   }
 
-  @Override
-  public String toString() {
+  public String getName() {
     return name;
   }
 
-  public static AnimalType valueOf(String typeName) {
+  public int getCode() {
+    return code;
+  }
 
-    return null;
+  public static AnimalType valueOfName(String name) {
+    AnimalType[] values = values();
+    for (AnimalType value : values) {
+      if (value.name.equals(name)) {
+        return value;
+      }
+    }
+
+    return UNKNOWN;
+  }
+
+  public static AnimalType valueOf(int code) {
+    AnimalType[] values = values();
+    for (AnimalType value : values) {
+      if (value.code == code) {
+        return value;
+      }
+    }
+    return UNKNOWN;
   }
 }

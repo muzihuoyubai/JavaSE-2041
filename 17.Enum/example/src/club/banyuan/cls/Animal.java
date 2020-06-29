@@ -1,4 +1,6 @@
-package club.banyuan;
+package club.banyuan.cls;
+
+import club.banyuan.cls.AnimalType;
 
 public class Animal {
 

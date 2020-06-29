@@ -1,19 +1,21 @@
 package club.banyuan;
 
+import club.banyuan.cls.Animal;
+
 public class Main {
 
   public static void main(String[] args) {
-    Elephant elephant = new Elephant();
-    AnimalType animalType = elephant.getAnimalType();
-    System.out.println(animalType);
+    System.out.println(AnimalType.TIGER.name());
 
-    // animalType = AnimalType.LION;
-    //
-    // if (animalType == AnimalType.ELEPHANT) {
-    //   // do something
-    // } else if(animalType == AnimalType.LION){
-    //
-    // }
+    AnimalType tiger = AnimalType.valueOf("TIGER");
+    System.out.println(AnimalType.TIGER);
 
+    System.out.println(AnimalType.TIGER.ordinal());
+    System.out.println(AnimalType.LION.ordinal());
+    System.out.println(AnimalType.ELEPHANT.ordinal());
+    System.out.println(AnimalType.ELEPHANT.compareTo(AnimalType.UNKNOWN));
+
+    AnimalType.ELEPHANT.setName("狮子");
+    System.out.println(AnimalType.ELEPHANT.getName());
   }
 }
