@@ -3,6 +3,7 @@ package club.banyuan;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 /**
  * 从用户键盘读取输入。每读一行，尝试将其解释为数学表达式并打印出结果（或错误消息）。
