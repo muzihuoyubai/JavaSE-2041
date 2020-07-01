@@ -34,12 +34,10 @@ public class PointUtils {
 
     /* 应该是Point [x = 3，y = 3]或Point [x = 1，y = 3] */
     System.out.println(highestPoint(points));
-    // TODO 编写一个单元测试
-    // assert 结果是[x = 3，y = 3] 或  [x = 1，y = 3]中的一个
+    // 结果是[x = 3，y = 3] 或  [x = 1，y = 3]中的一个
 
     // 应该是Point[x=2,y=2]
     System.out.println(centroid(points));
-    // TODO 编写一个单元测试测试结果
 
     points = new LinkedList<Point>();
     points.add(new Point(1, 1));
@@ -49,11 +47,8 @@ public class PointUtils {
 
     /* 应该是Point[x=1,y=1] 或[x=-1,y=1] */
     System.out.println(highestPoint(points));
-    // TODO 编写一个单元测试
-    // assert 结果是[x=1,y=1] 或  [x=-1,y=1]中的一个
 
     // 应该是[x=0,y=0]
     System.out.println(centroid(points));
-    // TODO 编写一个单元测试测试结果
   }
 }
