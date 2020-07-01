@@ -38,49 +38,24 @@ public class Calculator {
     switch (tokens.length) {
       case 0:
         // TODO: complete the cases
-        throw new IllegalInputException("Illegal Argument");
+
       case 1:
         // 只有一种情况，用户输入 quit
         // TODO: complete the cases
-        if (tokens[0].equalsIgnoreCase("quit")) {
-          throw new QuitException();
-        } else {
-          throw new IllegalInputException("Illegal Argument");
-        }
+
       case 2:
         // 只有一种情况，用户输入 负数
         // TODO: complete the cases
-        if ("-".equals(tokens[0])) {
-          return parseInt(tokens[1], true);
-          // } else if (("-".equals(tokens[0]) && (!"0123456789".contains(tokens[1])))) {
-          //   throw new IllegalInputException("Illegal Argument");
-        } else {
-          throw new IllegalInputException("Illegal Operator");
-        }
 
       case 3:
         // 计算表达式
         // TODO: complete the cases
-        int a = parseInt(tokens[0]);
-        int b = parseInt(tokens[2]);
-        switch (tokens[1]) {
-          case "+":
-            return a + b;
-          case "-":
-            return a - b;
-          case "/":
-            if (b == 0) {
-              throw new DivideByZeroException();
-            }
-            return a / b;
-          default:
-            throw new IllegalInputException("Illegal Operator");
-        }
+
       default:
-        throw new IllegalInputException("Illegal Token Length");
         // 4个或等多操作符号抛出异常
         // TODO: complete the cases
     }
+
   }
 
   /**
@@ -110,51 +85,18 @@ public class Calculator {
     String[] tokens = input.split(" ");
     try {
       // TODO: complete implementation.
-      // 正常情况
-      System.out.println("The result is：" + compute(tokens));
     } catch (QuitException e) {
-        System.out.println("Quitting\n"
-            + "Thanks!");
-        return  true;
       // TODO: complete implementation.
     } catch (IllegalInputException e) {
       // TODO: complete implementation.
-      System.out.println("Illegal input: "+e.getMessage());
     } catch (CalculatorException e) {
       // 这捕获了剩下的CalculatorException情况：DivideByZeroException
       // TODO: complete implementation.
-      if (e instanceof DivideByZeroException){
-        System.out.println("Tried to divide by zero");
-      }
-    } finally {
-      if (tokens.length > 0 && !"quit".equalsIgnoreCase(tokens[0])) {
-        System.out.println("Input was:" + input);
-      }
     }
 
     // TODO: complete implementation.
 
     // 未指定退出
     return false;
-  }
-
-  public static void main(String[] args) {
-    Integer.parseInt("abc");
-  }
-
-  public static int parseInt(String s) throws IllegalInputException {
-    try {
-      return Integer.parseInt(s);
-    } catch (NumberFormatException e) {
-      throw new IllegalInputException("Illegal Argument");
-    }
-  }
-
-  public static int parseInt(String s, boolean isNegative) throws IllegalInputException {
-    if (isNegative) {
-      return -parseInt(s);
-    } else {
-      return parseInt(s);
-    }
   }
 }
