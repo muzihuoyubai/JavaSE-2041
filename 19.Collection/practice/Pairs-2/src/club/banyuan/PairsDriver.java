@@ -1,16 +1,18 @@
 package club.banyuan;
 
+import java.util.Iterator;
+
 /**
  * 该代码说明了Pairs类的用法。
  */
 
 public class PairsDriver {
-  
+
   /**
    * Pairs类的测试程序。
    */
   public static void main(String[] args) {
-    Pairs<String, Integer> pairs = new Pairs<String, Integer>();
+    Pairs<String, Integer> pairs = new Pairs<>();
     for (int i = 0; i < 15; i++) {
       pairs.addPair("A" + i, i);
     }

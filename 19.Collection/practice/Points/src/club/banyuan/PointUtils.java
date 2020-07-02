@@ -11,9 +11,20 @@ public class PointUtils {
    */
   public static Point highestPoint(List<Point> points) {
     Iterator<Point> pointIterator = points.iterator();
+    Point point = null;
+    int maxY = Integer.MIN_VALUE;
+    while (pointIterator.hasNext()) {
+      Point next = pointIterator.next();
+      if (maxY < next.getY()) {
+        maxY = next.getY();
+        point = next;
+      }
+    }
+
+    return point;
 
     // TODO 使用迭代器完成此方法!
-    return null;
+    // return null;
   }
 
   /**
@@ -21,8 +32,21 @@ public class PointUtils {
    */
   public static Point centroid(List<Point> points) {
     Iterator<Point> pointIterator = points.iterator();
-    // TODO 使用迭代器完成此方法!
-    return null;
+    int count = 0;
+    int x = 0;
+    int y = 0;
+    if (points.size() == 0) {
+      throw new IllegalArgumentException("空的集合");
+    }
+
+    while (pointIterator.hasNext()) {
+      Point next = pointIterator.next();
+      x += next.getX();
+      y += next.getY();
+      count++;
+    }
+    return new Point(x / count, y / count);
+    // return null;
   }
 
   public void test() {
