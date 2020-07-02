@@ -6,7 +6,7 @@ public class WordExample {
    * 单词2=xx次
    * 单词3=xx次
    */
-  public static final String words = "baiShall I compare thee to a summer's day?\n"
+  public static final String words = "Shall I compare thee to a summer's day?\n"
       + "Thou art more lovely and more temperate:\n"
       + "Rough winds do shake the darling buds of May,\n"
       + "And summer's lease hath all too short a date:\n"
