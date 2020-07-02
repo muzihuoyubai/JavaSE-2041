@@ -1,6 +1,6 @@
 package club.banyuan;
 
-public class Country implements Measurable {
+public class Country implements Measurable<Country> {
 
   private int population;
 

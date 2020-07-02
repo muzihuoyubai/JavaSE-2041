@@ -1,6 +1,6 @@
 package club.banyuan;
 
-public interface Measurable {
+public interface Measurable<T> {
 
   double getMeasure();
 }

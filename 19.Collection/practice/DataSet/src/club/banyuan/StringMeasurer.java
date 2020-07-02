@@ -1,16 +1,12 @@
 package club.banyuan;
 
-public class StringMeasurer implements Measurer {
+public class StringMeasurer implements Measurer<String> {
 
   @Override
-  public double measure(Object anObject) {
+  public double measure(String anObject) {
     if (anObject == null) {
       return 0;
     }
-    if (anObject instanceof String) {
-      String string = (String) anObject;
-      return string.length();
-    }
-    throw new IllegalArgumentException("不是字符串类");
+    return anObject.length();
   }
 }

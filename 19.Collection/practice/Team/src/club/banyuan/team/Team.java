@@ -61,10 +61,15 @@ public class Team {
 
   public void remove(Player player) {
     if (starting.remove(player)) {
-      Player byPosition = getByPosition(substitution, player.getPosition());
-      starting.add(byPosition);
-      substitution.remove(byPosition);
-      starting.sort(Comparator.comparingInt(Player::getPositionIndex));
+      Player byPosition = null;
+      try {
+        byPosition = getByPosition(substitution, player.getPosition());
+        starting.add(byPosition);
+        substitution.remove(byPosition);
+        starting.sort(Comparator.comparingInt(Player::getPositionIndex));
+      } catch (RuntimeException e) {
+        System.err.println("没有相同位置的替补");
+      }
     } else {
       substitution.remove(player);
     }
