@@ -1,4 +1,4 @@
-package club.banyuan;
+package club.banyuan.shop;
 
 public class Shop {
 

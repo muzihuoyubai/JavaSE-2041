@@ -1,11 +1,11 @@
-package club.banyuan;
+package club.banyuan.staticmethod;
 
 public class Main {
 
   public static void main(String[] args) {
-    Shop shop = new Shop(20);
-    Customer zhangsan = new Customer(shop, "张三");
-    Customer lisi = new Customer(shop, "李四");
+    // Shop shop = new Shop(20);
+    Customer zhangsan = new Customer("张三");
+    Customer lisi = new Customer("李四");
     zhangsan.start();
     lisi.start();
     try {
@@ -15,6 +15,6 @@ public class Main {
       e.printStackTrace();
     }
     System.out.println("=============");
-    System.out.println(shop.getInventory());
+    System.out.println(Shop.getInventory());
   }
 }
