@@ -3,15 +3,6 @@ import java.util.Random;
 public class Counter {
 
   private int value;
-  private Random randomGenerator;
-
-  /**
-   * Constructor
-   */
-  public Counter() {
-    value = 0;
-    randomGenerator = new Random();
-  }
 
   /**
    * 将counter每次加1，加10次，时不时地休息一下。
@@ -20,12 +11,9 @@ public class Counter {
     int count = 0;
     try {
       while (count < 10) {
-        // 使用这种方法增加出现并发问题的几率，不要修改此代码
-        value = foo(value);
-
+        value++;
         // 生成一个0到5之间的随机数，使其睡眠时间在500ms左右
-        Thread.sleep(randomGenerator.nextInt(6) * 100);
-
+        Thread.sleep(500);
         count++;
       }
     } catch (InterruptedException e) {
@@ -35,16 +23,6 @@ public class Counter {
 
   public int get() {
     return value;
-  }
-
-  /**
-   * @return n+1
-   * @throws InterruptedException
-   */
-  private int foo(int n) throws InterruptedException {
-    // 生成一个0到5之间的随机数，使其睡眠时间在500ms左右
-    Thread.sleep(randomGenerator.nextInt(6) * 100);
-    return n + 1;
   }
 
 }
