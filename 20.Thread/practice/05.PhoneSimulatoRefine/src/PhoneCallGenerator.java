@@ -36,7 +36,7 @@ public class PhoneCallGenerator extends Thread {
           sleep(length * 1000);
         }
         // 让其他线程有机会
-        sleep(randomGenerator.nextInt(2));
+        sleep(200);
       }
     } catch (InterruptedException e) {
     }
