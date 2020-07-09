@@ -1,38 +1,13 @@
 package timed;
 
-import java.util.Random;
+public class TimedPhilosophy extends Philosophy {
 
-public class Philosophy extends Thread {
+  private int countEat;
+  private int countThink;
+  private int countHungry;
 
-  private static final Random rand = new Random();
-
-  protected Chopsticks left;
-  protected Chopsticks right;
-
-  public Philosophy(String name, Chopsticks left, Chopsticks right) {
-    super(name);
-    this.left = left;
-    this.right = right;
-  }
-
-  @Override
-  public void run() {
-    while (!Thread.interrupted()) {
-      try {
-        if (rand.nextBoolean()) {
-          eat();
-        } else {
-          think();
-        }
-      } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
-        if (left.isToken()) {
-          left.put(this);
-        } else if (right.isToken()) {
-          right.put(this);
-        }
-      }
-    }
+  public TimedPhilosophy(String name, Chopsticks left, Chopsticks right) {
+    super(name, left, right);
   }
 
   protected void think() {
@@ -43,24 +18,36 @@ public class Philosophy extends Thread {
       e.printStackTrace();
     }
     System.out.println(getName() + "思考完成");
+    countThink++;
   }
 
   protected void eat() throws InterruptedException {
     System.out.println(getName() + "准备吃饭");
     if (!this.left.take(this)) {
       System.out.println(getName() + "饿肚子");
+      countHungry++;
       return;
     }
     Thread.sleep(500);
     if (!this.right.take(this)) {
       this.left.put(this);
       System.out.println(getName() + "饿肚子");
+      countHungry++;
       return;
     }
     Thread.sleep(500);
     System.out.println(getName() + "吃饭完成");
+    countEat++;
     this.right.put(this);
     this.left.put(this);
   }
 
+  @Override
+  public String toString() {
+    return getName() + "{" +
+        "countEat=" + countEat +
+        ", countThink=" + countThink +
+        ", countHungry=" + countHungry +
+        '}';
+  }
 }

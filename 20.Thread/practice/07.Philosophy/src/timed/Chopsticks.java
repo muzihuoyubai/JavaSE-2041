@@ -7,8 +7,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Chopsticks {
 
   private boolean isToken;
-  private Lock lock = new ReentrantLock();
-  private int code;
+  private final Lock lock = new ReentrantLock();
+  private final int code;
 
   public Chopsticks(int code) {
     this.code = code;
@@ -26,6 +26,10 @@ public class Chopsticks {
     }
   }
 
+  public boolean isToken() {
+    return isToken;
+  }
+
   public void put(Philosophy philosophy) {
     if (isToken) {
       System.out.println(philosophy.getName() + "准备放下筷子" + code);
@@ -33,5 +37,7 @@ public class Chopsticks {
       isToken = false;
       System.out.println(philosophy.getName() + "放下筷子" + code);
     }
+
+
   }
 }
