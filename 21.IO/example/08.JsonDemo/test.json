@@ -1,0 +1,16 @@
+{
+  "name": "张三",
+  "password": "123456",
+  "number": 1,
+  "boolean": true,
+  "object": {
+    "prop": "value"
+  },
+  "arr": [
+    "",
+    1,
+    true,
+    {},
+    []
+  ]
+}

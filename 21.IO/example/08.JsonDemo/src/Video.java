@@ -17,6 +17,9 @@ class Video implements Serializable {
 
   int ratingTimes;
 
+  public Video() {
+  }
+
   public Video(String title) {
     this.title = title;
   }
@@ -33,6 +36,38 @@ class Video implements Serializable {
     }
     isRent = status;
     return true;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public boolean isRent() {
+    return isRent;
+  }
+
+  public void setRent(boolean rent) {
+    isRent = rent;
+  }
+
+  public double getRating() {
+    return rating;
+  }
+
+  public void setRating(double rating) {
+    this.rating = rating;
+  }
+
+  public int getRatingTimes() {
+    return ratingTimes;
+  }
+
+  public void setRatingTimes(int ratingTimes) {
+    this.ratingTimes = ratingTimes;
   }
 
   // int[] ratingArr = new int[10]{-1};
