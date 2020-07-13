@@ -52,32 +52,29 @@ public class Demo {
     System.out.println(instance.get(Calendar.MONTH));
     System.out.println(instance.get(Calendar.YEAR));
 
-    SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM-dd HH:mm:ss");
-    String format = simpleDateFormat1.format(instance.getTime());
-    System.out.println(format);
+    SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    // String format = simpleDateFormat1.format(instance.getTime());
+    // System.out.println(format);
 
-    // SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
-    // // Date parse1 = simpleDateFormat1.parse(str);
-    // // System.out.println(parse1);
-    // // System.out.println(parse1.getTime());
-    //
-    // // simpleDateFormat1.getCalendar().setTimeZone(TimeZone.getTimeZone());
-    //
-    // System.out.println(Arrays.toString(TimeZone.getAvailableIDs()));
-    //
-    Calendar africa1 = Calendar.getInstance(TimeZone.getTimeZone("Africa/Abidjan"));
-    System.out.println(africa1);
-    // System.out.println(africa1.getTimeZone());
-    // Date africa = africa1.getTime();
-    Calendar shanghai = Calendar.getInstance(TimeZone.getTimeZone("Asia/Shanghai"));
-    System.out.println(shanghai);
-    // SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-    System.out.println(africa1);
+    // TimeZone.getTimeZone("Asia/Shanghai")
+    simpleDateFormat1.setTimeZone(TimeZone.getTimeZone("Africa/Abidjan"));
+    Date date = new Date();
+    System.out.println(simpleDateFormat1.format(date));
+
+    simpleDateFormat1.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+    System.out.println(simpleDateFormat1.format(date));
+
+
+    String timeStr = "2020-07-13 13:35:00";
+    simpleDateFormat1.setTimeZone(TimeZone.getTimeZone("Africa/Abidjan"));
+    Date abidjan = simpleDateFormat1.parse(timeStr);
+    simpleDateFormat1.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+    Date shanghai = simpleDateFormat1.parse(timeStr);
+
+    System.out.println(abidjan.compareTo(shanghai));
+    System.out.println(abidjan.before(shanghai));
+    System.out.println(abidjan.getTime());
     System.out.println(shanghai.getTime());
-    // System.out.println(africa.getTime());
-    // System.out.println(shanghai.getTime());
-    //
-    // System.out.println(TimeZone.getTimeZone("Africa/Abidjan"));
 
   }
 
