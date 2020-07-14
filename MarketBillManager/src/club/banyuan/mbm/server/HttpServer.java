@@ -54,7 +54,6 @@ public class HttpServer extends Thread {
           case "/server/user/modify":
             Map<String, String> formData = mbmRequest.getFormData();
             // TODO 添加用户
-
             responseRedirect(outputStream, mbmRequest, "/user_list.html");
             break;
           case "/server/user/list":
