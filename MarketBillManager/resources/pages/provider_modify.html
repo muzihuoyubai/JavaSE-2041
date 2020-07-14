@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>超市账单管理系统</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css"/>
+  <link rel="icon" href="data:image/ico;base64,aWNv">
+</head>
+<div id="header">
+  <div class="title"></div>
+  <div class="welcome">欢迎您：admin</div>
+</div>
+<div id="section-left">
+  <ul class="left-menu">
+    <li><a href="bill_list.html" target="mainFrame"><img src="images/btn_bill.gif"/></a></li>
+    <li><a href="provider_list.html" target="mainFrame"><img src="images/btn_suppliers.gif"/></a>
+    </li>
+    <li><a href="user_list.html" target="mainFrame"><img src="images/btn_users.gif"/></a></li>
+    <li><a href="#" onClick="javaScript:alert('这里实现退出操作！')"><img src="images/btn_exit.gif"/></a>
+    </li>
+  </ul>
+</div>
+
+<div id="section-right" style="overflow: hidden">
+  <div class="main">
+    <div class="optitle clearfix">
+      <div class="title">供应商管理&gt;&gt;</div>
+    </div>
+    <!--    <form id="form1" name="form1" method="post" action="server/provider/modify" onsubmit="return checkit();">-->
+    <form id="form1" name="form1" method="post" action="server/provider/modify">
+      <div class="content">
+        <input id="flag" name="id" value="0" type="hidden">
+        <table class="box">
+          <tbody>
+          <tr>
+            <td class="field">供应商名称：</td>
+            <td><input name="name" value="" class="text" type="text"> <font color="red">*</font>
+            </td>
+          </tr>
+          <tr>
+            <td class="field">供应商描述：</td>
+            <td><textarea name="desc" cols="45" rows="5"></textarea></td>
+          </tr>
+          <tr>
+            <td class="field">供应商电话：</td>
+            <td><input name="phone" value="" class="text" type="text"></td>
+          </tr>
+          <tr>
+            <td class="field">联系人：</td>
+            <td><input name="contactPerson" value="" class="text" type="text"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="buttons">
+        <input name="button" value="提交" class="input-button" type="submit">
+        <input name="button" onclick="window.location='provider_list.html';" value="返回"
+               class="input-button" type="button">
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/jquery-3.5.1.min.js"></script>
+<script src="js/common.js"></script>
+<script>
+  $(function () {
+    let id = getURLParameter("id");
+    if (id !== undefined && id.length !== 0) {
+      $.ajax({
+        type: "post",
+        contentType: "application/json;charset=UTF-8",
+        url: "server/provider/get",
+        data: JSON.stringify({"id": id}),
+        success: function (result) {
+          if (!$.isEmptyObject(result)) {
+            $("#flag").val(id);
+            let lineNode = $("tbody");
+            for (let prop in result) {
+              // 找到以属性名作为css类的div，将内容替换为属性的值
+              lineNode.find("[name='" + prop + "']").val(result[prop]);
+            }
+          } else {
+            alert("id不存在");
+          }
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>

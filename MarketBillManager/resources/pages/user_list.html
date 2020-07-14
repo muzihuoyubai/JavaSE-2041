@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>超市账单管理系统</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css"/>
+  <link rel="icon" href="data:image/ico;base64,aWNv">
+</head>
+<div id="header">
+  <div class="title"></div>
+  <div class="welcome">欢迎您：admin</div>
+</div>
+<div id="section-left">
+  <ul class="left-menu">
+    <li><a href="bill_list.html" target="mainFrame"><img src="images/btn_bill.gif"/></a></li>
+    <li><a href="provider_list.html" target="mainFrame"><img src="images/btn_suppliers.gif"/></a>
+    </li>
+    <li><a href="user_list.html" target="mainFrame"><img src="images/btn_users.gif"/></a></li>
+    <li><a href="#" onClick="javaScript:alert('这里实现退出操作！')"><img src="images/btn_exit.gif"/></a>
+    </li>
+  </ul>
+</div>
+
+<div id="section-right" style="overflow: hidden">
+  <div class="menu">
+
+    <table>
+      <tbody>
+      <tr>
+        <td>
+          <form id="user-search" method="post" action="">
+            <input name="flag" value="search" class="input-text" type="hidden">
+            用户名称：<input name="name" class="input-text" type="text">&nbsp;&nbsp;&nbsp;&nbsp;
+            <button id="user-search-btn"> 查 询 </button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="main">
+
+    <div class="optitle clearfix">
+      <em><input value="添加数据" class="input-button" onclick="window.location='user_modify.html'"
+                 type="button"></em>
+      <div class="title">用户管理&gt;&gt;</div>
+    </div>
+    <div class="content">
+      <table class="list">
+        <tbody id="user-list">
+        <tr>
+          <td width="50" height="29">
+            <div class="STYLE1" align="center">编号</div>
+          </td>
+          <td width="80">
+            <div class="STYLE1" align="center">用户名称</div>
+          </td>
+          <td width="80">
+            <div class="STYLE1" align="center">权限</div>
+          </td>
+          <td width="80">
+            <div class="STYLE1" align="center">操作</div>
+          </td>
+        </tr>
+        <tr id="user-title" style="display: none">
+          <td height="23">
+            <div class="STYLE1 id">1</div>
+          </td>
+          <td>
+            <div class="STYLE1 name">admin</div>
+          </td>
+          <td>
+            <div class="STYLE1 userTypeStr">普通用户</div>
+          </td>
+          <td>
+            <div class="STYLE1">
+              <a href="" class="update">修改</a>
+              <a href="" class="delete">删除</a>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script src="js/jquery-3.5.1.min.js"></script>
+<script src="js/common.js"></script>
+<script>
+  function buildRow(obj, nodeTemplate) {
+    let lineNode = nodeTemplate.clone();
+    // 找到以属性名作为class的标签，将text替换为属性的值
+    for (let prop in obj) {
+      lineNode.find("." + prop).text(obj[prop]);
+      lineNode.show(); // clone 的节点默认是隐藏的，需要让添加的行显示
+    }
+    return lineNode;
+  }
+
+  function appendList(result) {
+    let nodeTemplate = $("#user-title").clone();
+    // clone 之后不需要id属性
+    nodeTemplate.removeAttr("id");
+    // result 返回的是一个 obj 数组，这里遍历数组，将每个provider添加到表格中
+    for (let index in result) {
+      let lineNode = buildRow(result[index], nodeTemplate);
+      $("#user-list").append(lineNode);
+    }
+  }
+
+  $(function () {
+    // 页面加载完成后，加载列表数据
+    $.ajax({
+      type: "post",
+      contentType: "application/json;charset=UTF-8",
+      url: "server/user/list",
+      // data
+      success: function (result) {
+        appendList(result);
+      }
+    });
+
+    $("#user-list").on("click", ".update", function (e) {
+      e.preventDefault();
+      let id = $(this).parents("tr").find(".id").text();
+      window.location.href = "user_modify.html?id=" + id;
+    })
+
+    $("#user-list").on("click", ".delete", function (e) {
+      e.preventDefault();
+      let target = $(this).parents("tr");
+      let id = $(this).parents("tr").find(".id").text();
+      $.ajax({
+        type: "post",
+        contentType: "application/json;charset=UTF-8",
+        url: "server/user/delete",
+        data: JSON.stringify({"id": id}),
+        success: function (result) {
+          // 清空表格
+          target.remove();
+        }
+      });
+    })
+
+    /**
+     * 组合查询
+     */
+    $("#user-search-btn").click(function (e) {
+      e.preventDefault();
+      $.ajax({
+        type: "post",
+        contentType: "application/json;charset=UTF-8",
+        url: "server/user/list",
+        data: form2JsonString("user-search"),
+        success: function (result) {
+          // 清空表格
+          $("#user-title").nextAll().remove();
+          appendList(result);
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

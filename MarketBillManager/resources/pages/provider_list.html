@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>超市账单管理系统</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css"/>
+  <link rel="icon" href="data:image/ico;base64,aWNv">
+</head>
+<div id="header">
+  <div class="title"></div>
+  <div class="welcome">欢迎您：admin</div>
+</div>
+<div id="section-left">
+  <ul class="left-menu">
+    <li><a href="bill_list.html" target="mainFrame"><img src="images/btn_bill.gif"/></a></li>
+    <li><a href="provider-list.html" target="mainFrame"><img src="images/btn_suppliers.gif"/></a>
+    </li>
+    <li><a href="user_list.html" target="mainFrame"><img src="images/btn_users.gif"/></a></li>
+    <li><a href="#" onClick="javaScript:alert('这里实现退出操作！')"><img src="images/btn_exit.gif"/></a>
+    </li>
+  </ul>
+</div>
+
+<div id="section-right" style="overflow: hidden">
+  <div class="menu">
+
+    <table>
+      <tbody>
+      <tr>
+        <td>
+          <form id="provider_search" method="post">
+            <input name="flag" value="search" type="hidden">
+            供应商名称：
+            <input name="name" class="input-text" type="text"> &nbsp;&nbsp;&nbsp;&nbsp;
+            供应商描述：
+            <input name="desc" class="input-text" type="text">&nbsp;&nbsp;&nbsp;&nbsp;
+            <button id="provider_search_btn">组 合 查 询</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="main">
+    <div class="optitle clearfix">
+      <em><input value="添加数据" class="input-button" onclick="window.location='provider_modify.html'"
+                 type="button"></em>
+      <div class="title">供应商管理&gt;&gt;</div>
+    </div>
+
+    <div class="content">
+      <table class="list">
+        <tbody id="provider-list">
+        <tr>
+          <td width="70" height="29">
+            <div class="STYLE1" align="center">编号</div>
+          </td>
+          <td width="80">
+            <div class="STYLE1" align="center">供应商名称</div>
+          </td>
+          <td width="100">
+            <div class="STYLE1" align="center">供应商描述</div>
+          </td>
+          <td width="100">
+            <div class="STYLE1" align="center">联系人</div>
+          </td>
+
+          <td width="100">
+            <div class="STYLE1" align="center">电话</div>
+          </td>
+          <td width="100">
+            <div class="STYLE1" align="center">操作</div>
+          </td>
+        </tr>
+        <tr id="provider-title" style="display: none">
+          <td>
+            <div class="id" align="center">编号</div>
+          </td>
+          <td>
+            <div class="name" align="center">供应商名称</div>
+          </td>
+          <td>
+            <div class="desc" align="center">供应商描述</div>
+          </td>
+          <td>
+            <div class="contactPerson" align="center">联系人</div>
+          </td>
+          <td>
+            <div class="phone" align="center">电话</div>
+          </td>
+          <td>
+            <div class="operation" align="center">
+              <a href="" class="update">修改</a>
+              <a href="" class="delete">删除</a>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script src="js/jquery-3.5.1.min.js"></script>
+<script src="js/common.js"></script>
+<script>
+  function buildProviderRow(provider, providerNodeTemplate) {
+    let lineNode = providerNodeTemplate.clone();
+    // 找到以属性名作为class的标签，将text替换为属性的值
+    for (let prop in provider) {
+      lineNode.find("." + prop).text(provider[prop]);
+      lineNode.show(); // clone 的节点默认是隐藏的，需要让添加的行显示
+    }
+    return lineNode;
+  }
+
+  function appendProviderList(result) {
+    let providerNodeTemplate = $("#provider-title").clone();
+    // clone 之后不需要id属性
+    providerNodeTemplate.removeAttr("id");
+    // result 返回的是一个 provider 数组，这里遍历数组，将每个provider添加到表格中
+    for (let index in result) {
+      let lineNode = buildProviderRow(result[index], providerNodeTemplate);
+      $("#provider-list").append(lineNode);
+    }
+  }
+
+  $(function () {
+    // 页面加载完成后，加载列表数据
+    $.ajax({
+      type: "post",
+      contentType: "application/json;charset=UTF-8",
+      url: "server/provider/list",
+      // data
+      success: function (result) {
+        // let providerNodeTemplate = $("#provider-title").clone();
+        // providerNodeTemplate.removeAttr("id");
+        appendProviderList(result);
+
+      }
+    });
+
+    $("#provider-list").on("click", ".update", function (e) {
+      e.preventDefault();
+      let id = $(this).parents("tr").find(".id").text();
+      window.location.href = "provider_modify.html?id=" + id;
+    })
+
+    $("#provider-list").on("click", ".delete", function (e) {
+      e.preventDefault();
+      let target = $(this).parents("tr");
+      let id = $(this).parents("tr").find(".id").text();
+      $.ajax({
+        type: "post",
+        contentType: "application/json;charset=UTF-8",
+        url: "server/provider/delete",
+        data: JSON.stringify({"id": id}),
+        success: function (result) {
+          // 清空表格
+          target.remove();
+        }
+      });
+    })
+
+    /**
+     * 组合查询
+     */
+    $("#provider_search_btn").click(function (e) {
+      e.preventDefault();
+      $.ajax({
+        type: "post",
+        contentType: "application/json;charset=UTF-8",
+        url: "server/provider/list",
+        data: form2JsonString("provider_search"),
+        success: function (result) {
+          // 清空表格
+          $("#provider-title").nextAll().remove();
+          appendProviderList(result);
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
