@@ -1,0 +1,14 @@
+[
+  {
+    "name": "u1",
+    "pwd": "123456",
+    "userType": 1,
+    "userTypeStr": "经理"
+  },
+  {
+    "name": "u2",
+    "pwd": "123456",
+    "userType": 0,
+    "userTypeStr": "普通用户"
+  }
+]

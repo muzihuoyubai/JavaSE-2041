@@ -1,18 +1,13 @@
 package club.banyuan.mbm.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.StringTokenizer;
 
 /**
- * 截取Form 提交的post数据
+ * 开启多线程
  */
-public class HttpServer {
+public class HttpServer2 {
 
   public static void main(String[] args) throws IOException {
 
