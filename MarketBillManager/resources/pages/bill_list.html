@@ -23,37 +23,143 @@
 
 <div id="section-right" style="overflow: hidden">
   <div class="menu">
-    <form method="get" action="">
-      商品名称：<input type="text" name="productName" class="input-text"/>&nbsp;&nbsp;&nbsp;&nbsp;
-      是否付款：<select name="payStatus">
-      <option value="">请选择</option>
+    <form id="bill-search" method="get" action="">
+      商品名称：<input type="text" name="product" class="input-text"/>&nbsp;&nbsp;&nbsp;&nbsp;
+      是否付款：<select name="isPay">
+      <option value="-1">请选择</option>
       <option value="1">已付款</option>
       <option value="0">未付款</option>
     </select>&nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="submit" name="submit" value="组合查询" class="button"/>
+      <button id="bill-search-btn" type="submit"> 组 合 查 询 </button>
     </form>
   </div>
   <div class="main">
     <div class="optitle clearfix">
       <em><input type="button" name="button" value="添加数据" class="input-button"
-                 onclick="location.href='bill_add.html'"/></em>
+                 onclick="location.href='bill_modify.html'"/></em>
       <div class="title">账单管理&gt;&gt;</div>
     </div>
     <div class="content">
       <table class="list">
+        <thead>
         <tr>
           <td>账单编号</td>
+          <td>供应商名称</td>
           <td>商品描述</td>
           <td>交易金额</td>
-          <td>供应商名称</td>
           <td>是否付款</td>
           <td>账单时间</td>
+          <td>操作</td>
         </tr>
-
+        </thead>
+        <tbody id="bill-list">
+        <tr id="bill-title" style="display: none">
+          <td height="23">
+            <div class="id">账单编号</div>
+          </td>
+          <td>
+            <div class="providerName">供应商名称</div>
+          </td>
+          <td>
+            <div class="product">商品描述</div>
+          </td>
+          <td>
+            <div class="money">交易金额</div>
+          </td>
+          <td>
+            <div class="isPayStr">是否付款</div>
+          </td>
+          <td>
+            <div class="updateTime">账单时间</div>
+          </td>
+          <td>
+            <div>
+              <a href="" class="update">修改</a>
+              <a href="" class="delete">删除</a>
+            </div>
+          </td>
+        </tr>
+        </tbody>
       </table>
     </div>
   </div>
 </div>
+<script src="js/jquery-3.5.1.min.js"></script>
+<script src="js/common.js"></script>
+<script>
+  function buildRow(obj, nodeTemplate) {
+    let lineNode = nodeTemplate.clone();
+    // 找到以属性名作为class的标签，将text替换为属性的值
+    for (let prop in obj) {
+      lineNode.find("." + prop).text(obj[prop]);
+      lineNode.show(); // clone 的节点默认是隐藏的，需要让添加的行显示
+    }
+    return lineNode;
+  }
 
+  function appendList(result, rowTemplateId, $list) {
+    let nodeTemplate = $("#" + rowTemplateId).clone();
+    // clone 之后不需要id属性
+    nodeTemplate.removeAttr("id");
+    // result 返回的是一个 obj 数组，这里遍历数组，将每个provider添加到表格中
+    for (let index in result) {
+      let lineNode = buildRow(result[index], nodeTemplate);
+      $list.append(lineNode);
+    }
+  }
+
+  $(function () {
+    // 页面加载完成后，加载列表数据
+    $.ajax({
+      type: "post",
+      contentType: "application/json;charset=UTF-8",
+      url: "server/bill/list",
+      // data
+      success: function (result) {
+        appendList(result, "bill-title", $("#bill-list"));
+      }
+    });
+
+    $("#bill-list").on("click", ".update", function (e) {
+      e.preventDefault();
+      let id = $(this).parents("tr").find(".id").text();
+      window.location.href = "bill_modify.html?id=" + id;
+    })
+
+    $("#bill-list").on("click", ".delete", function (e) {
+      e.preventDefault();
+      let target = $(this).parents("tr");
+      let id = $(this).parents("tr").find(".id").text();
+      $.ajax({
+        type: "post",
+        contentType: "application/json;charset=UTF-8",
+        url: "server/bill/delete",
+        data: JSON.stringify({"id": id}),
+        success: function (result) {
+          // 清空表格
+          target.remove();
+        }
+      });
+    })
+
+    /**
+     * 组合查询
+     */
+    $("#bill-search-btn").click(function (e) {
+      e.preventDefault();
+      $.ajax({
+        type: "post",
+        contentType: "application/json;charset=UTF-8",
+        url: "server/bill/list",
+        data: form2JsonString("bill-search"),
+        success: function (result) {
+          // 清空表格
+          $("#bill-title").nextAll().remove();
+          appendList(result, "bill-title", $("#bill-list"));
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>

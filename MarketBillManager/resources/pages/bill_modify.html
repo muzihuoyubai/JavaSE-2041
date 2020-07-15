@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css"/>
+  <link rel="icon" href="data:image/ico;base64,aWNv">
+</head>
+<body>
+<div id="header">
+  <div class="title"></div>
+  <div class="welcome">欢迎您：admin</div>
+</div>
+<div id="section-left">
+  <ul class="left-menu">
+    <li><a href="bill_list.html" target="mainFrame"><img src="images/btn_bill.gif"/></a></li>
+    <li><a href="provider_list.html" target="mainFrame"><img src="images/btn_suppliers.gif"/></a>
+    </li>
+    <li><a href="user_list.html" target="mainFrame"><img src="images/btn_users.gif"/></a></li>
+    <li><a href="#" onClick="javaScript:alert('这里实现退出操作！')"><img src="images/btn_exit.gif"/></a>
+    </li>
+  </ul>
+</div>
+
+<div id="section-right" style="overflow: hidden">
+  <div class="main">
+    <div class="optitle clearfix">
+      <em><input type="button" name="button" value="添加数据" class="input-button"
+                 onclick="location.href='modify.html'"/></em>
+      <div class="title">账单管理&gt;&gt;</div>
+    </div>
+    <form method="post" action="/server/bill/modify">
+      <input id="flag" type="hidden" name="id" value="0">
+      <div class="content">
+        <table class="box">
+          <tbody>
+          <tr>
+            <td class="field">供应商：</td>
+            <td>
+              <select id="provider" name="providerId"></select>
+            </td>
+            <!--            <td class="field">供应商：</td>-->
+            <!--            <td><input name="provider" list="provider" class="text">-->
+            <!--              <datalist id="provider">-->
+            <!--                <option>Bavette</option>-->
+            <!--                <option>Cannelloni</option>-->
+            <!--                <option>Fiorentine</option>-->
+            <!--                <option>Gnocchi</option>-->
+            <!--                <option>Pappardelle</option>-->
+            <!--                <option>Penne lisce</option>-->
+            <!--                <option>Pici</option>-->
+            <!--                <option>Rigatoni</option>-->
+            <!--                <option>Spaghetti</option>-->
+            <!--                <option>Tagliatelle</option>-->
+            <!--              </datalist>-->
+            <!--            </td>-->
+          </tr>
+          <tr>
+            <td class="field">交易金额：</td>
+            <td><input type="text" name="money" class="text"/></td>
+          </tr>
+          <tr>
+            <td class="field">商品描述：</td>
+            <td><textarea name="product"></textarea></td>
+          </tr>
+          <tr>
+            <td class="field">是否付款：</td>
+            <td>
+              <label>
+                <input type="radio" name="isPay" value="1" checked="checked"/>
+                是
+              </label>
+              <label>
+                <input type="radio" name="isPay" value="0"/>
+                否</label>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="buttons">
+        <input type="submit" name="submit" value="确认" class="input-button"/>
+        <input type="button" name="button" value="返回" class="input-button"
+               onclick="history.back();"/>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="js/jquery-3.5.1.min.js"></script>
+<script src="js/common.js"></script>
+<script>
+
+  $(function () {
+    // 页面加载完成后，加载列表数据
+    $.ajax({
+      type: "post",
+      contentType: "application/json;charset=UTF-8",
+      url: "server/provider/list",
+      // data
+      success: function (result) {
+        let $provider = $("#provider");
+        $provider.empty();
+        for (let index in result) {
+          let $option = $("<option></option>");
+          $option.attr("value", result[index].id);
+          $option.text(result[index].name);
+          $provider.append($option);
+        }
+
+        let id = getURLParameter("id");
+        if (id !== undefined && id.length !== 0) {
+          $.ajax({
+            type: "post",
+            contentType: "application/json;charset=UTF-8",
+            url: "server/bill/get",
+            data: JSON.stringify({"id": id}),
+            success: function (result) {
+              if (!$.isEmptyObject(result)) {
+                $("#flag").val(id);
+                let lineNode = $("tbody");
+                for (let prop in result) {
+                  // 找到以属性名作为css类的div，将内容替换为属性的值
+                  if (prop === "isPay") {
+                    lineNode.find("[name='" + prop + "']").each(function () {
+                      $(this).prop("checked", $(this).val() === result[prop] + "");
+                    });
+                  } else if (prop === "providerName") {
+                    lineNode.find("[name=provider]'").val([result[prop]]);
+                  } else {
+                    lineNode.find("[name='" + prop + "']").val(result[prop]);
+                  }
+                }
+              } else {
+                alert("id不存在");
+              }
+            }
+          });
+        }
+      }
+    });
+
+  });
+</script>
+</body>
+</html>
