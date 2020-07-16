@@ -1,0 +1,40 @@
+POST http://127.0.0.1:5000/server/user/login
+Content-Type: application/json
+
+{
+  "name": "zhangsan",
+  "pwd": "123456"
+}
+
+###
+
+POST http://127.0.0.1:5000/server/user/list
+Content-Type: application/json
+
+[
+  {
+    "name": "zhangsan",
+    "pwd": "123456"
+  },
+  {
+    "name": "lisi",
+    "pwd": "654321"
+  }
+]
+
+
+###
+
+POST http://127.0.0.1:5000/server/echomsg
+Content-Type: application/json
+
+[
+  {
+    "name": "zhangsan",
+    "pwd": "123456"
+  },
+  {
+    "name": "lisi",
+    "pwd": "654321"
+  }
+]

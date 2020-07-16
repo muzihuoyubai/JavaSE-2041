@@ -1,6 +1,7 @@
 package club.banyuan.mbm.service;
 
 import club.banyuan.mbm.entity.User;
+import club.banyuan.mbm.exception.FormPostException;
 import club.banyuan.mbm.uti.PropUtil;
 import com.alibaba.fastjson.JSONObject;
 import java.io.File;
@@ -12,11 +13,13 @@ import java.util.List;
 
 public class UserService {
 
+  private static int userId;
   public static final String USER_STORE_PATH = "user.store.path";
   private static List<User> userList;
 
   static {
     load();
+    userId = userList.size() + 1;
   }
 
   private static void load() {
@@ -64,6 +67,14 @@ public class UserService {
     return null;
   }
 
+  public List<User> getUserList() {
+    return userList;
+  }
+
+  public void setUserList(List<User> userList) {
+    UserService.userList = userList;
+  }
+
   public static void main(String[] args) {
     userList = new ArrayList<>();
     User u1 = new User();
@@ -79,5 +90,19 @@ public class UserService {
     userList.add(u2);
 
     save();
+  }
+
+  public void addUser(User user) {
+    validate(user);
+
+    user.setId(userId++);
+    userList.add(user);
+    save();
+  }
+
+  private void validate(User user) {
+    if (!user.getPwd().equals(user.getPwdConfirm())) {
+      throw new FormPostException("密码不一致");
+    }
   }
 }

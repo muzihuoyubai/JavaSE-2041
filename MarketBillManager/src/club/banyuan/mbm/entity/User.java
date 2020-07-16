@@ -2,6 +2,7 @@ package club.banyuan.mbm.entity;
 
 public class User {
 
+  private int id;
   private String name;
   private String pwd;
   private String pwdConfirm;
@@ -9,6 +10,14 @@ public class User {
   // 如果userType = 0，str = 普通用户
   // 如果userType = 1，str = 经理
   private String userTypeStr;
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;

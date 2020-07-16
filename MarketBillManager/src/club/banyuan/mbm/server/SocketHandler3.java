@@ -1,7 +1,6 @@
 package club.banyuan.mbm.server;
 
 import club.banyuan.mbm.entity.User;
-import club.banyuan.mbm.exception.FormPostException;
 import club.banyuan.mbm.service.UserService;
 import com.alibaba.fastjson.JSONObject;
 import java.io.BufferedReader;
@@ -16,19 +15,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class SocketHandler extends Thread {
+/**
+ * 实现了用户的新增和查询
+ */
+public class SocketHandler3 extends Thread {
 
   private Socket clientSocket;
   private UserService userService = new UserService();
 
-  public SocketHandler(Socket clientSocket) {
+  public SocketHandler3(Socket clientSocket) {
     this.clientSocket = clientSocket;
   }
 
   @Override
   public void run() {
-    MbmRequest mbmRequest = new MbmRequest();
-
     try {
       // 开启浏览器的流，获取浏览器发送的数据
       InputStream inputStream = clientSocket.getInputStream();
@@ -47,7 +47,7 @@ public class SocketHandler extends Thread {
 
       // GET / HTTP1.1
       StringTokenizer tokenizer = new StringTokenizer(line);
-
+      MbmRequest mbmRequest = new MbmRequest();
       mbmRequest.setMethod(tokenizer.nextToken());
       mbmRequest.setPath(tokenizer.nextToken());
 
@@ -82,13 +82,7 @@ public class SocketHandler extends Thread {
         // 资源文件的路径，需要读取对应的文件内容返回
         responseResource(resourcePath);
       }
-    } catch (FormPostException e) {
-      try {
-        responseRedirect(mbmRequest, "/form_post_fail.html?msg=" + e.getMessage());
-      } catch (IOException ioException) {
-        ioException.printStackTrace();
-      }
-    } catch (Exception e) {
+    } catch (IOException e) {
       e.printStackTrace();
     } finally {
       try {
@@ -111,8 +105,7 @@ public class SocketHandler extends Thread {
         Map<String, String> formData = mbmRequest.getFormData();
         if (userService.login(formData.get("name"), formData.get("pwd")) == null) {
           // 登录失败， 跳转到login.html
-          throw new FormPostException("用户名或密码错误!");
-          // responseRedirect(mbmRequest, "/login.html");
+          responseRedirect(mbmRequest, "/login.html");
         } else {
           // 登录成功，跳转到 bill_list.html
           responseRedirect(mbmRequest, "/bill_list.html");
@@ -176,43 +169,6 @@ public class SocketHandler extends Thread {
       resourcePath = "pages/" + resourcePath;
     }
 
-    // form_post_fail.html?msg=异常信息描述
-    if (resourcePath.contains("form_post_fail.html")) {
-      // 获取异常信息描述
-      String msg = URLDecoder.decode(resourcePath.split("=")[1], "UTF-8");
-      resourcePath = resourcePath.split("\\?")[0];
-      InputStream resourceAsStream = HttpServer.class.getClassLoader()
-          .getResourceAsStream(resourcePath);
-
-      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(resourceAsStream));
-      StringBuilder builder = new StringBuilder();
-
-      String line = bufferedReader.readLine();
-      while (line != null) {
-        if (line.contains("${msg}")) {
-          line = line.replace("${msg}", msg);
-        }
-        builder.append(line);
-        builder.append(System.lineSeparator());
-        line = bufferedReader.readLine();
-      }
-      byte[] data = builder.toString().getBytes();
-      OutputStream outputStream = clientSocket.getOutputStream();
-      outputStream.write("HTTP/1.1 200 OK\r\n".getBytes());
-      if (resourcePath.contains(".html")) {
-        outputStream.write("Content-Type: text/html; charset=utf-8\r\n".getBytes());
-      }
-
-      String contentLength = "Content-Length: " + data.length;
-      outputStream.write(contentLength.getBytes());
-
-      outputStream.write("\r\n".getBytes());
-      outputStream.write("\r\n".getBytes());
-      outputStream.write(data);
-      bufferedReader.close();
-      return;
-    }
-
     InputStream resourceAsStream = HttpServer.class.getClassLoader()
         .getResourceAsStream(resourcePath);
 
@@ -233,6 +189,5 @@ public class SocketHandler extends Thread {
     outputStream.write("\r\n".getBytes());
     outputStream.write("\r\n".getBytes());
     outputStream.write(resourceAsStream.readAllBytes());
-    resourceAsStream.close();
   }
 }
