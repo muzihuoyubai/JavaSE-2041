@@ -16,12 +16,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class SocketHandler extends Thread {
+/**
+ * 处理用户名错误异常，重定向到一个错误页面
+ */
+public class SocketHandler4 extends Thread {
 
   private Socket clientSocket;
   private UserService userService = new UserService();
 
-  public SocketHandler(Socket clientSocket) {
+  public SocketHandler4(Socket clientSocket) {
     this.clientSocket = clientSocket;
   }
 
@@ -49,7 +52,7 @@ public class SocketHandler extends Thread {
       StringTokenizer tokenizer = new StringTokenizer(line);
 
       mbmRequest.setMethod(tokenizer.nextToken());
-      mbmRequest.setPath(URLDecoder.decode(tokenizer.nextToken(), "utf-8"));
+      mbmRequest.setPath(tokenizer.nextToken());
 
       // 循环读取请求头的信息，按照一行一行的方式读取，读取到空行则退出循环
       while (line != null && line.length() != 0) {
@@ -80,7 +83,7 @@ public class SocketHandler extends Thread {
         process(mbmRequest);
       } else {
         // 资源文件的路径，需要读取对应的文件内容返回
-        responseResource(mbmRequest);
+        responseResource(resourcePath);
       }
     } catch (FormPostException e) {
       try {
@@ -164,8 +167,7 @@ public class SocketHandler extends Thread {
     // out.writeBytes("\r\n");
   }
 
-  private void responseResource(MbmRequest mbmRequest) throws IOException {
-    String resourcePath = mbmRequest.getPath();
+  private void responseResource(String resourcePath) throws IOException {
     if (resourcePath.startsWith("/")) {
       resourcePath = resourcePath.substring(1);
     }
@@ -180,6 +182,8 @@ public class SocketHandler extends Thread {
     // form_post_fail.html?msg=异常信息描述
     if (resourcePath.contains("form_post_fail.html")) {
       // 获取异常信息描述
+      String msg = URLDecoder.decode(resourcePath.split("=")[1], "UTF-8");
+      resourcePath = resourcePath.split("\\?")[0];
       InputStream resourceAsStream = HttpServer.class.getClassLoader()
           .getResourceAsStream(resourcePath);
 
@@ -189,7 +193,7 @@ public class SocketHandler extends Thread {
       String line = bufferedReader.readLine();
       while (line != null) {
         if (line.contains("${msg}")) {
-          line = line.replace("${msg}", mbmRequest.getFormData().get("msg"));
+          line = line.replace("${msg}", msg);
         }
         builder.append(line);
         builder.append(System.lineSeparator());

@@ -3,6 +3,7 @@ package club.banyuan.mbm.server;
 import club.banyuan.mbm.entity.User;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -73,8 +74,16 @@ public class MbmRequest {
     return path;
   }
 
+  // 处理get请求的路径，将路径后面的信息，保存到payload里面，将路径?后面的内容全部截取掉
+  // path.html?name=1&pwd=2
   public void setPath(String path) {
-    this.path = path;
+    if (method.equals("GET") && path.contains("?")) {
+      String[] split = path.split("\\?");
+      this.path = split[0];
+      payload = split[1];
+    } else {
+      this.path = path;
+    }
   }
 
   public String getHost() {
