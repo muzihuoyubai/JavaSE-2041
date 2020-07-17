@@ -1,6 +1,7 @@
 package club.banyuan.mbm.server;
 
 import club.banyuan.mbm.entity.User;
+import club.banyuan.mbm.exception.BadRequestException;
 import club.banyuan.mbm.exception.FormPostException;
 import club.banyuan.mbm.service.UserService;
 import com.alibaba.fastjson.JSONObject;
@@ -88,6 +89,13 @@ public class SocketHandler extends Thread {
       } catch (IOException ioException) {
         ioException.printStackTrace();
       }
+
+    } catch (BadRequestException e) {
+      try {
+        responseFailJson(e.getMessage());
+      } catch (IOException ioException) {
+        ioException.printStackTrace();
+      }
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
@@ -129,9 +137,23 @@ public class SocketHandler extends Thread {
         Map<String, String> formData = mbmRequest.getFormData();
         String data = JSONObject.toJSONString(formData);
         User user = JSONObject.parseObject(data, User.class);
-        userService.addUser(user);
+        if(user.getId() == 0){
+          userService.addUser(user);
+        }else{
+          userService.updateUser(user);
+        }
         responseRedirect(mbmRequest, "/user_list.html");
       }
+      break;
+      case "/server/user/get": {
+        String payload = mbmRequest.getPayload();
+        System.out.println("/server/user/get");
+        System.out.println(payload);
+        User userId = JSONObject.parseObject(payload, User.class);
+        User user = userService.getUserById(userId.getId());
+        responseJson(user);
+      }
+      break;
     }
   }
 
@@ -140,6 +162,20 @@ public class SocketHandler extends Thread {
     DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
 
     out.writeBytes("HTTP/1.1 200 OK");
+    out.writeBytes("\r\n");
+    out.writeBytes("Content-Length: " + data.getBytes().length);
+    out.writeBytes("\r\n");
+    out.writeBytes("Content-Type: application/json;charset=utf-8;");
+    out.writeBytes("\r\n");
+    out.writeBytes("\r\n");
+    out.write(data.getBytes());
+  }
+
+  private void responseFailJson(String data) throws IOException {
+    // String data = JSONObject.toJSONString(object);
+    DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+
+    out.writeBytes("HTTP/1.1 400 Bad request");
     out.writeBytes("\r\n");
     out.writeBytes("Content-Length: " + data.getBytes().length);
     out.writeBytes("\r\n");

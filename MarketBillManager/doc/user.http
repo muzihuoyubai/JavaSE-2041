@@ -1,0 +1,19 @@
+POST http://127.0.0.1:5000/server/user/get
+Content-Type: application/json
+
+
+// 期待的返回值
+//{
+//  "id": 1,
+//  "name": "u1",
+//  "pwd": "123456",
+//  "userType": 1,
+//  "userTypeStr": "经理"
+//}
+
+{
+  "id": "66"
+}
+
+
+###

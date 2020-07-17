@@ -1,6 +1,7 @@
 package club.banyuan.mbm.service;
 
 import club.banyuan.mbm.entity.User;
+import club.banyuan.mbm.exception.BadRequestException;
 import club.banyuan.mbm.exception.FormPostException;
 import club.banyuan.mbm.uti.PropUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -10,6 +11,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class UserService {
 
@@ -104,5 +108,65 @@ public class UserService {
     if (!user.getPwd().equals(user.getPwdConfirm())) {
       throw new FormPostException("密码不一致");
     }
+  }
+
+  public User getUserById(String id) {
+    for (User user : userList) {
+      if (Integer.parseInt(id) == user.getId()) {
+        return user;
+      }
+    }
+    return null;
+  }
+
+  public User getUserById(int id) {
+    for (User user : userList) {
+      if (id == user.getId()) {
+        return user;
+      }
+    }
+    throw new BadRequestException("用户id" + id + "不存在");
+  }
+
+  // userList = {user1=1,user2=2,user3=3}
+  public User getUserByIdRefine(String id) {
+
+    // 将list中的数据查找，id匹配的数据
+    List<User> collect = userList.stream().filter(new Predicate<User>() {
+
+      @Override
+      public boolean test(User user) { // user对象是在userList中的对象，userList中所有的对象依次被传入到此方法中
+        // 返回true，保留该对象，返回false，过滤掉该对象
+        return user.getId() == Integer.parseInt(id);
+      }
+      // 将过滤结果转换为一个新的list
+    }).collect(Collectors.toList());
+
+    List<User> collect1 = userList.stream().filter(user -> {
+      return user.getId() == Integer.parseInt(id);
+    }).collect(Collectors.toList());
+
+    List<User> collect2 = userList.stream().filter(user -> user.getId() == Integer.parseInt(id))
+        .collect(Collectors.toList());
+
+    Optional<User> first = userList.stream().filter(user -> user.getId() == Integer.parseInt(id))
+        .findFirst();
+
+    // return first.orElse(null);
+
+    if (first.isPresent()) {
+      return first.get();
+    }
+    return null;
+
+    // return collect.get(0);
+  }
+
+  public void updateUser(User user) {
+    User userById = getUserById(user.getId());
+    userById.setUserType(user.getUserType());
+    userById.setName(user.getName());
+    userById.setPwd(user.getPwd());
+    userById.setPwdConfirm(user.getPwdConfirm());
   }
 }
