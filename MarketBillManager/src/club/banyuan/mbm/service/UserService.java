@@ -4,6 +4,7 @@ import club.banyuan.mbm.entity.User;
 import club.banyuan.mbm.exception.BadRequestException;
 import club.banyuan.mbm.exception.FormPostException;
 import club.banyuan.mbm.uti.PropUtil;
+import club.banyuan.mbm.uti.ValidationUtil;
 import com.alibaba.fastjson.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
@@ -104,11 +105,29 @@ public class UserService {
     save();
   }
 
+  // 用户密码，6-15位，数字字母下划线
+  // 用户名，不能包含特殊字符 !@#$%^&*()
+  // userType 必须是 0 或1
   private void validate(User user) {
     if (!user.getPwd().equals(user.getPwdConfirm())) {
       throw new FormPostException("密码不一致");
     }
+    try {
+      ValidationUtil.validate(user);
+    } catch (Exception e) {
+      throw new FormPostException(e.getMessage());
+    }
+    //
+    // boolean matches = user.getPwd().matches("\\w{6,15}");
+    // if (!matches) {
+    //   throw new FormPostException("密码不规范");
+    // }
+    // boolean matches1 = user.getName().matches("[^!@#$%^&*()]");
+    // if (!matches1) {
+    //   throw new FormPostException("用户名不规范");
+    // }
   }
+
 
   public User getUserById(String id) {
     for (User user : userList) {

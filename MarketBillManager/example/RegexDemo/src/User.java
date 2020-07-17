@@ -1,14 +1,12 @@
-package club.banyuan.mbm.entity;
-
 public class User {
 
   private int id;
-  @Validation(regex = "[^!@#$%^&*()]{3,10}", msg = "用户名不合法")
+  @Validation(regex = "[^!@#$%^&*()]{3,10}")
   private String name;
-  @Validation(regex = "\\w{3,15}", msg = "密码不合法")
+
+  private int userType;
   private String pwd;
   private String pwdConfirm;
-  private int userType;
   // 如果userType = 0，str = 普通用户
   // 如果userType = 1，str = 经理
   private String userTypeStr;
@@ -64,5 +62,17 @@ public class User {
 
   public void setUserTypeStr(String userTypeStr) {
     this.userTypeStr = userTypeStr;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", userType=" + userType +
+        ", pwd='" + pwd + '\'' +
+        ", pwdConfirm='" + pwdConfirm + '\'' +
+        ", userTypeStr='" + userTypeStr + '\'' +
+        '}';
   }
 }
