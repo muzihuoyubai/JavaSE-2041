@@ -128,7 +128,18 @@ public class SocketHandler extends Thread {
       }
       break;
       case "/server/user/list": {
-        List<User> userList = userService.getUserList();
+        List<User> userList;
+        // 如果payload不为null，表示需要根据用户名进行检索
+        String payload = mbmRequest.getPayload();
+        if (payload == null) {
+          userList = userService.getUserList();
+
+        } else {
+          // 将待检索的用户名转换为user对象
+          User user = JSONObject.parseObject(payload, User.class);
+          userList = userService.getUserList(user);
+        }
+
         responseJson(userList);
       }
       break;
@@ -137,9 +148,9 @@ public class SocketHandler extends Thread {
         Map<String, String> formData = mbmRequest.getFormData();
         String data = JSONObject.toJSONString(formData);
         User user = JSONObject.parseObject(data, User.class);
-        if(user.getId() == 0){
+        if (user.getId() == 0) {
           userService.addUser(user);
-        }else{
+        } else {
           userService.updateUser(user);
         }
         responseRedirect(mbmRequest, "/user_list.html");
@@ -152,6 +163,13 @@ public class SocketHandler extends Thread {
         User userId = JSONObject.parseObject(payload, User.class);
         User user = userService.getUserById(userId.getId());
         responseJson(user);
+      }
+      break;
+      case "/server/user/delete": {
+        String payload = mbmRequest.getPayload();
+        User userId = JSONObject.parseObject(payload, User.class);
+        userService.deleteUserById(userId.getId());
+        responseOk();
       }
       break;
     }
@@ -169,6 +187,14 @@ public class SocketHandler extends Thread {
     out.writeBytes("\r\n");
     out.writeBytes("\r\n");
     out.write(data.getBytes());
+  }
+
+  private void responseOk() throws IOException {
+    DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+
+    out.writeBytes("HTTP/1.1 200 OK");
+    out.writeBytes("\r\n");
+    out.writeBytes("\r\n");
   }
 
   private void responseFailJson(String data) throws IOException {

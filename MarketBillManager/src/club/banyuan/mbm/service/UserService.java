@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -24,7 +25,31 @@ public class UserService {
 
   static {
     load();
-    userId = userList.size() + 1;
+    // 如果保存的用户id是 1，2，3，加载之后用户的id参考值是4
+    // 但是如果把2号用户删除，再次加载之后，用户的id参考值是3，
+    // 这样再次添加用户，用户的id=3，和其中的一个用户的id冲突了
+    // userId = userList.size() + 1;
+    // for (User user : userList) {
+    //   if (userId < user.getId()) {
+    //     userId = user.getId() + 1;
+    //   }
+    // }
+
+    // Optional<User> max1 = userList.stream().max(new Comparator<User>() {
+    //   @Override
+    //   public int compare(User o1, User o2) {
+    //     return o1.getId() - o2.getId();
+    //   }
+    // });
+    //
+    // if (max1.isPresent()) {
+    //   userId = max1.get().getId() + 1;
+    // } else {
+    //   userId = 1;
+    // }
+
+    Optional<User> max = userList.stream().max(Comparator.comparing(User::getId));
+    userId = max.map(user -> user.getId() + 1).orElse(1);
   }
 
   private static void load() {
@@ -97,12 +122,16 @@ public class UserService {
     save();
   }
 
+  // 不能再方法上加synchronized，因为调用这个方法的对象不是同一个
+  // 每个线程都会创建一个userService的对象
+  // synchronized public void addUser(User user) {
   public void addUser(User user) {
     validate(user);
-
-    user.setId(userId++);
-    userList.add(user);
-    save();
+    synchronized (userList) {
+      user.setId(userId++);
+      userList.add(user);
+      save();
+    }
   }
 
   // 用户密码，6-15位，数字字母下划线
@@ -144,7 +173,7 @@ public class UserService {
         return user;
       }
     }
-    throw new BadRequestException("用户id" + id + "不存在");
+    throw new BadRequestException("用户id:" + id + "不存在");
   }
 
   // userList = {user1=1,user2=2,user3=3}
@@ -182,10 +211,58 @@ public class UserService {
   }
 
   public void updateUser(User user) {
-    User userById = getUserById(user.getId());
-    userById.setUserType(user.getUserType());
-    userById.setName(user.getName());
-    userById.setPwd(user.getPwd());
-    userById.setPwdConfirm(user.getPwdConfirm());
+    synchronized (userList) {
+      User userById = getUserById(user.getId());
+      userById.setUserType(user.getUserType());
+      userById.setName(user.getName());
+      userById.setPwd(user.getPwd());
+      userById.setPwdConfirm(user.getPwdConfirm());
+    }
+  }
+
+  public List<User> getUserList(User user) {
+    if (user.getName() == null || user.getName().trim().length() == 0) {
+      return getUserList();
+    }
+
+    List<User> list = new ArrayList<>();
+    for (User user1 : userList) {
+      if (user1.getName().contains(user.getName().trim())) {
+        list.add(user1);
+      }
+    }
+    return list;
+  }
+
+  public List<User> getUserListRefine(User user) {
+    // return userList.stream().filter(t -> t.getName().contains(user.getName()))
+    //     .collect(Collectors.toList());
+    return userList.stream().filter(new Predicate<User>() {
+      @Override
+      public boolean test(User u) {
+        return u.getName().contains(user.getName());
+      }
+    }).collect(Collectors.toList());
+  }
+
+  public void deleteUserById(int id) {
+    List<User> list = new ArrayList<>();
+    synchronized (userList) {
+      for (User user : userList) {
+        if (user.getId() == id) {
+          list.add(user);
+        }
+      }
+      for (User user : list) {
+        userList.remove(user);
+      }
+      save();
+    }
+
+  }
+
+  public void deleteUserByIdRefine(int id) {
+    User userById = getUserById(id);
+    userList.remove(userById);
   }
 }

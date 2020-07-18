@@ -19,7 +19,7 @@ public class Number {
     char[] numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     for (int i = 0; i < SIZE; i++) {
-      int index = (int) (Math.random() * numbers.length - i);
+      int index = (int) (Math.random() * (numbers.length - i));
       value[i] = numbers[index];
       numbers[index] = numbers[numbers.length - i - 1];
     }
